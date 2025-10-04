@@ -5,7 +5,7 @@ import axios from 'axios';
 
 // 🚨 FOR LOCAL TEST: Use 'https://yolo-detector-backend.onrender.com'
 // 🚨 FOR DEPLOYMENT: This must be your live Render URL (Vercel ENV variable will replace this)
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://yolo-detector-backend.onrender.com'; 
+const BACKEND_URL = 'https://yolo-detector-backend.onrender.com';
 
 function ImageUploader() {
   const [file, setFile] = useState(null);
