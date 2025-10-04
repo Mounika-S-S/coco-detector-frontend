@@ -1,88 +1,45 @@
 // src/App.jsx
+
 import React, { useState } from 'react';
-import axios from 'axios'; // We'll install this soon
-
-// A custom component for handling login/registration
-function AuthComponent({ onLoginSuccess }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [isRegistering, setIsRegistering] = useState(false);
-  const [message, setMessage] = useState('');
-
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default browser form submission
-    setMessage('Processing...');
-
-    // 🚨 We need to define the backend URL here!
-    const endpoint = isRegistering ? 'http://localhost:5000/api/auth/register' : 'http://localhost:5000/api/auth/login';
-
-    try {
-      // Send data to the backend
-      const response = await axios.post(endpoint, { username, password });
-      
-      // If successful, store the token
-      localStorage.setItem('token', response.data.token);
-      onLoginSuccess(); // Tell the parent component login was successful
-    } catch (error) {
-      setMessage(error.response.data.message || 'An error occurred.');
-    }
-  };
-
-  return (
-    <div>
-      <h2>{isRegistering ? 'Register' : 'Login'}</h2>
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          placeholder="Username" 
-          value={username} 
-          onChange={(e) => setUsername(e.target.value)} // Update state on change
-          required 
-        />
-        <input 
-          type="password" 
-          placeholder="Password" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)}
-          required 
-        />
-        <button type="submit">{isRegistering ? 'Register' : 'Login'}</button>
-      </form>
-      <p>{message}</p>
-      <button onClick={() => setIsRegistering(!isRegistering)}>
-        Switch to {isRegistering ? 'Login' : 'Register'}
-      </button>
-    </div>
-  );
-}
+import AuthComponent from './AuthComponent'; // Import the Auth component
+import ImageUploader from './ImageUploader'; // Import the Uploader component
+import './App.css'; // Assuming you have a basic CSS file or style the components inline
 
 // The main application component
 function App() {
-  // Check if a token exists in localStorage on load
+  // Check localStorage for token on load to determine if the user is logged in
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
-  // Logic to switch view after successful login
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
   };
   
-  // Logic to handle logout
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
   };
 
   return (
-    <div>
-      <h1>COCO Object Detector</h1>
+    <div style={{ 
+        padding: '20px', 
+        minHeight: '100vh', 
+        backgroundColor: '#282c34', 
+        color: 'white', 
+        textAlign: 'center' 
+    }}>
+      <h1 style={{ color: '#61dafb', margin: '0 0 40px 0' }}>YOLO Object Detector</h1>
+      
       {isLoggedIn ? (
-        <div>
-          <p>Welcome! Now you can upload an image.</p>
-          <button onClick={handleLogout}>Logout</button>
-          {/* We will add the Image Uploader component here next */}
-        </div>
+        // If logged in, show the uploader and logout button
+        <> 
+          <button onClick={handleLogout} style={{ position: 'absolute', top: '20px', right: '20px', padding: '10px 20px' }}>
+            Logout
+          </button>
+          <p style={{ fontSize: '1.2em' }}>Welcome! You are ready to analyze images.</p>
+          <ImageUploader /> 
+        </>
       ) : (
+        // If not logged in, show the Auth component
         <AuthComponent onLoginSuccess={handleLoginSuccess} />
       )}
     </div>
