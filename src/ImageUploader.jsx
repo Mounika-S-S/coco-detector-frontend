@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-// 🚨 FOR LOCAL TEST: Use 'http://localhost:5000'
+// 🚨 FOR LOCAL TEST: Use 'https://yolo-detector-backend.onrender.com'
 // 🚨 FOR DEPLOYMENT: This must be your live Render URL (Vercel ENV variable will replace this)
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'; 
 
