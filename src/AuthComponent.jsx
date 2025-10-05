@@ -5,7 +5,7 @@ import axios from 'axios';
 
 // 🚨 IMPORTANT: Use your local backend URL for testing. 
 // Change to your live Render URL before final deployment!
-const BACKEND_URL = 'http://localhost:5000'; 
+const BACKEND_URL = 'https://yolo-detector-backend.onrender.com'; 
 
 function AuthComponent({ onLoginSuccess }) {
   const [username, setUsername] = useState('');
